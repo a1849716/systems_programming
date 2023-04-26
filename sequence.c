@@ -6,12 +6,12 @@
 #include <unistd.h>
 
 int main() {
+  // string to store commands
   char curr_line[255];
-
+  char *commands[12];
   // while there are still lines
   while (fgets(curr_line, 255, stdin) != NULL) {
-    // string to store commands
-    char *commands[12];
+    printf("Curr_line: %s\n", curr_line);
     // strtok curr_line into commands[12]
     char *token = strtok(curr_line, " ");
     int i = 0;
@@ -24,13 +24,11 @@ int main() {
 
     // forking
     int pid = fork();
-    // fork
     if (pid < 0) {
       printf("ERROR!!\n");
       return 1;
     } else if (pid == 0) {  // child
       execvp(commands[0], commands);
-      printf("Command: %s\n", curr_line);
     } else {  // parent
       wait(NULL);
     }
